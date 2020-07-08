@@ -1,16 +1,23 @@
 import React from "react";
-import logo from "./logo.svg";
+
 import Header from "./components/Header/Header.js";
-import Launch from "./Lanch/Launch.js";
+
 import "./App.css";
 import LaunchList from "./LaunchList/LaunchList";
+import LaunchView from "./LaunchView/LaunchView";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <LaunchList />
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <Switch>
+          <Route path="/launch/:flight_number" component={LaunchView} />
+          <Route path="/" component={LaunchList} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
