@@ -1,34 +1,42 @@
 import React, { Component } from "react";
 import Launch from "../Lanch/Launch";
 import "./style.css";
+import axios from "axios";
 
 class LaunchList extends Component {
+  state = {
+    launches: [],
+  };
+  componentDidMount = () => {
+    this.getLanches();
+  };
+  getLanches = () => {
+    axios
+      .get("https://api.spacexdata.com/v3/launches")
+      .then((response) => {
+        this.setState({ launches: response.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  launchList = () => {
+    const launchListComp = this.state.launches.map((resp, index) => {
+      return (
+        <Launch
+          key={("launch +", index)}
+          banner="https://farm9.staticflickr.com/8617/16789019815_f99a165dc5_o.jpg"
+          title={resp.mission_name}
+          launchDate={resp.launch_date_local}
+          description={resp.details}
+        />
+      );
+    });
+    return launchListComp;
+  };
   render() {
-    return (
-      <div className="launchlist">
-        <Launch
-          banner="https://farm9.staticflickr.com/8617/16789019815_f99a165dc5_o.jpg"
-          title="FalconSat"
-          launchDate="2006-03-25T10:30:00+12:00"
-          description=" First launch under USAF's OSP 3 launch contract. First SpaceX launch
-      to put a satellite to an orbit with an orbital altitude many times
-      the distance to the Moon: Sun-Earth libration point L1. The first
-      stage made a test flight descent to an over-ocean landing within 10
-      m (33 ft) of its intended target."
-        />
-
-        <Launch
-          banner="https://farm9.staticflickr.com/8617/16789019815_f99a165dc5_o.jpg"
-          title="TalconSat"
-          launchDate="2007-03-25T10:30:00+12:00"
-          description=" Second launch under USAF's OSP 3 launch contract. First SpaceX launch
-      to put a satellite to an orbit with an orbital altitude many times
-      the distance to the Moon: Sun-Earth libration point L1. The first
-      stage made a test flight descent to an over-ocean landing within 10
-      m (33 ft) of its intended target."
-        />
-      </div>
-    );
+    console.log(this.state.launches[0]);
+    return <div className="launchlist">{this.launchList()}</div>;
   }
 }
 
