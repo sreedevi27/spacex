@@ -1,0 +1,12 @@
+.att {
+  display: flex;
+  color: rgb(7, 67, 87);
+}
+.launchatt {
+  margin: auto;
+  max-width: 1000px;
+}
+.att h2 {
+  width: 400px;
+  font-size: 20px;
+}
